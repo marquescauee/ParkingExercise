@@ -2,6 +2,7 @@ package com.clm.parkingcontrolexercise.configs.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +18,9 @@ public class WebSecurityConfig  {
                 .httpBasic()
                 .and()
                 .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.GET, "/api/parking-spot/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/parking-spot").hasRole("USER")
+                .requestMatchers(HttpMethod.DELETE, "/api/parking-spot/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable();
@@ -24,9 +28,8 @@ public class WebSecurityConfig  {
         return http.build();
     }
 
-
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

@@ -2,11 +2,14 @@ package com.clm.parkingcontrolexercise.models;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
 @Table(name = "cars")
-public class CarModel {
+public class CarModel implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
